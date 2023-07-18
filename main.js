@@ -1,43 +1,67 @@
 import * as THREE from "three";
-import "./style.css";
 
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(
-  75,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  1000
-);
-const light = new THREE.AmbientLight(0x404040); // soft white light
-scene.add(light);
+let scene, camera, renderer;
+let cube, sphere;
 
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
+function init() {
+  // Create a scene
+  scene = new THREE.Scene();
 
-const bgeometry = new THREE.BoxGeometry(1, 1, 1);
-const sgeometry = new THREE.SphereGeometry(1);
-const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-const cube = new THREE.Mesh(bgeometry, material);
-const sphere = new THREE.Mesh(sgeometry, material);
-cube.position.z = 0.5;
-cube.position.x = -2;
-cube.position.y = 1;
-sphere.position.z = 0.5;
-sphere.position.x = 2;
-sphere.position.y = 1;
-scene.add(cube);
-scene.add(sphere);
+  // Create a camera
+  camera = new THREE.PerspectiveCamera(
+    75,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+  );
+  camera.position.z = 5;
 
-camera.position.z = 5;
+  // Create a renderer
+  renderer = new THREE.WebGLRenderer();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+
+  // Create a cube
+  const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
+  const cubeMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+  cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+  scene.add(cube);
+
+  // Create a sphere
+  const sphereGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+  const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+  sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+  scene.add(sphere);
+}
 
 function animate() {
   requestAnimationFrame(animate);
 
-  cube.rotation.x += 0.01;
-  cube.rotation.y += 0.01;
+  // Rotate the cube
+  // cube.rotation.x += 0.01;
+  // cube.rotation.y += 0.01;
 
+  // Move the sphere
+  sphere.position.x = Math.sin(Date.now() * 0.001) * 2;
+
+  // Check for collision
+  const spherePosition = new THREE.Vector3();
+  sphere.getWorldPosition(spherePosition);
+
+  const cubePosition = new THREE.Vector3();
+  cube.getWorldPosition(cubePosition);
+
+  const distance = spherePosition.distanceTo(cubePosition);
+
+  if (distance < 1) {
+    cube.material.color.set(0xff0000); // Set cube color to red if collision occurs
+  } else {
+    cube.material.color.set(0x00ff00); // Set cube color to green if no collision
+  }
+
+  // Render the scene
   renderer.render(scene, camera);
 }
 
+init();
 animate();

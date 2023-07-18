@@ -1,7 +1,7 @@
 import * as THREE from "three";
 
 let scene, camera, renderer;
-let cube, sphere;
+let box, sphere;
 
 function init() {
   // Create a scene
@@ -24,8 +24,8 @@ function init() {
   // Create a cube
   const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
   const cubeMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-  cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-  scene.add(cube);
+  box = new THREE.Mesh(cubeGeometry, cubeMaterial);
+  scene.add(box);
 
   // Create a sphere
   const sphereGeometry = new THREE.SphereGeometry(0.5, 32, 32);
@@ -49,14 +49,14 @@ function animate() {
   sphere.getWorldPosition(spherePosition);
 
   const cubePosition = new THREE.Vector3();
-  cube.getWorldPosition(cubePosition);
+  box.getWorldPosition(cubePosition);
 
   const distance = spherePosition.distanceTo(cubePosition);
 
   if (distance < 1) {
-    cube.material.color.set(0xff0000); // Set cube color to red if collision occurs
+    box.material.color.set(0xff0000); // Set cube color to red if collision occurs
   } else {
-    cube.material.color.set(0x00ff00); // Set cube color to green if no collision
+    box.material.color.set(0x00ff00); // Set cube color to green if no collision
   }
 
   // Render the scene

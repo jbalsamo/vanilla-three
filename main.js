@@ -40,6 +40,7 @@ function animate() {
   // Rotate the cube
   box.rotation.x += 0.01;
   box.rotation.y += 0.01;
+  box.rotation.z += 0.01;
 
   // Move the sphere
   sphere.position.x = Math.sin(Date.now() * 0.001) * 2;
@@ -54,7 +55,7 @@ function animate() {
   const distance = spherePosition.distanceTo(cubePosition);
 
   if (distance < 1) {
-    box.material.color.set(0xff0000); // Set cube color to red if collision occurs
+    box.material.color.set(0x0000ff); // Set cube color to red if collision occurs
   } else {
     box.material.color.set(0x00ff00); // Set cube color to green if no collision
   }

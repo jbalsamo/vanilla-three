@@ -23,15 +23,9 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// Create a flat stage
-// const geometry = new THREE.PlaneGeometry(10, 10);
-// const material = new THREE.MeshBasicMaterial({ color: 0x808080 });
-// const stage = new THREE.Mesh(geometry, material);
-// scene.add(stage);
-
 // Create a small red sphere
 const sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
-const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+const sphereMaterial = new THREE.MeshPhongMaterial({ color: 0xff0000 });
 const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
 scene.add(sphere);
 
